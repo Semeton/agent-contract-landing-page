@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent Contract — Repository Governance for AI Coding Agents</title>
-<meta name="description" content="Agent Contract turns AI coding rules into enforceable contracts stored in your repository. Governance for Claude Code, Cursor, Codex, and GitHub Copilot." />
+<title>Agent Contract — Repository Governance Runtime</title>
+<meta name="description" content="Agent Contract is a runtime for repository governance. Deterministic guardrails for non-deterministic AI coding agents." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -373,6 +373,30 @@
   }
   .problem-note strong { color: var(--text); font-weight: 600; }
 
+  /* ---------- THESIS QUOTE ---------- */
+  .thesis-quote {
+    border-left: 2px solid var(--accent);
+    padding: 18px 28px;
+    margin: 44px 0 0;
+    font-family: var(--display);
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+    line-height: 1.3;
+    max-width: 36em;
+  }
+  .thesis-quote span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--faint);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
   /* ---------- SOLUTION FLOW ---------- */
   .flow-diagram {
     display: flex;
@@ -396,6 +420,15 @@
     border-color: rgba(61,214,140,0.3);
     background: linear-gradient(160deg, rgba(61,214,140,0.05), var(--panel));
   }
+  .flow-node.runtime-node {
+    border-color: rgba(127,176,255,0.35);
+    background: linear-gradient(160deg, rgba(127,176,255,0.06), var(--panel));
+  }
+  .flow-node.provider-node {
+    border-color: var(--line);
+    background: transparent;
+    border-style: dashed;
+  }
   .flow-node-num {
     font-family: var(--mono);
     font-size: 10.5px;
@@ -414,6 +447,8 @@
   }
   .flow-node.accent-node .flow-node-title { color: var(--accent); }
   .flow-node.pass-node .flow-node-title { color: var(--pass); }
+  .flow-node.runtime-node .flow-node-title { color: #7FB0FF; }
+  .flow-node.provider-node .flow-node-title { color: var(--muted); }
   .flow-node-desc {
     font-size: 14.5px;
     color: var(--muted);
@@ -439,6 +474,35 @@
     gap: 2px;
   }
   .flow-line { width: 1px; height: 16px; background: var(--line); }
+
+  /* ---------- ARCH DIAGRAM ADDITIONS ---------- */
+  .arch-split-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 44px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+  .arch-split-sep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--faint);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+  }
+  .arch-provider-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .arch-provider-row .flow-node { padding: 16px 18px; }
+  .arch-provider-row .flow-node-title { font-size: 14px; margin-bottom: 4px; }
+  .arch-provider-row .flow-node-desc { font-size: 12.5px; }
 
   /* ---------- HOW IT WORKS ---------- */
   .seq { border-top: 1px solid var(--line); }
@@ -471,7 +535,7 @@
   /* ---------- FEATURES ---------- */
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
   .feat {
@@ -482,6 +546,9 @@
     transition: border-color .2s;
   }
   .feat:hover { border-color: rgba(232,176,75,0.3); }
+  .feat.wide {
+    grid-column: span 2;
+  }
   .feat-tag {
     font-family: var(--mono);
     font-size: 10.5px;
@@ -513,6 +580,8 @@
     padding: 1px 4px;
     border-radius: 3px;
   }
+  .feat.wide h3 { font-size: 17px; margin-bottom: 11px; }
+  .feat.wide p { font-size: 14.5px; }
 
   /* ---------- COMPARE TABLE ---------- */
   .compare-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -703,6 +772,7 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 960px) {
     .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .feat.wide { grid-column: span 2; }
     .principles { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 880px) {
@@ -713,9 +783,13 @@
     .step { grid-template-columns: 54px 1fr; }
     .step .tag { grid-column: 2; justify-self: start; margin-top: 6px; }
     .nav-links a:not(.nav-gh) { display: none; }
+    .arch-split-row { grid-template-columns: 1fr; }
+    .arch-split-sep { display: none; }
+    .arch-provider-row { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     .features-grid { grid-template-columns: 1fr; }
+    .feat.wide { grid-column: span 1; }
     .principles { grid-template-columns: 1fr; }
   }
   @media (max-width: 480px) {
@@ -737,10 +811,10 @@
 <header class="nav">
   <div class="brand"><span class="dot"></span>agent-contract</div>
   <nav class="nav-links">
-    <a href="#problem">Problem</a>
-    <a href="#how">How it works</a>
-    <a href="#compare">Compare</a>
+    <a href="#governance">Governance</a>
+    <a href="#architecture">Architecture</a>
     <a href="#example">Example</a>
+    <a href="#compare">Compare</a>
     <a class="nav-gh" href="https://github.com/semeton/agent-contract">GitHub ↗</a>
   </nav>
 </header>
@@ -751,9 +825,9 @@
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">repository governance for AI coding agents</span>
-        <h1>Turn AI coding rules into <span class="accent">enforceable contracts.</span></h1>
-        <p class="lede">Agent Contract keeps AI coding agents aligned with your architecture, permissions, and engineering standards by storing project rules inside your repository — where they can be verified, not just requested.</p>
+        <span class="eyebrow">repository governance · runtime</span>
+        <h1>Deterministic guardrails for <span class="accent">non-deterministic</span> agents.</h1>
+        <p class="lede">Agent Contract is a runtime for repository governance. It builds deterministic policy enforcement around AI coding agents — not by constraining what models can reason about, but by governing what they can write.</p>
         <div class="cta-row">
           <button class="cmd-copy" data-copy="npm i -g @semeton/agent-contract" aria-label="Copy install command">
             <span><span class="prompt">$</span> npm i -g @semeton/agent-contract</span>
@@ -763,21 +837,13 @@
           <a class="btn-ghost" href="https://github.com/semeton/agent-contract#readme">Docs ↗</a>
         </div>
         <p class="mono" style="font-size:12.5px;color:var(--muted);margin:14px 0 0">then <span style="color:var(--accent)">agent-contract init</span> in any repo · or one-shot with <span style="color:#C4CAD8">npx @semeton/agent-contract init</span></p>
-        <!--
-        <div class="hero-meta">
-          <span><b id="dl-count">2,800+</b> downloads</span>
-          <a href="https://github.com/Semeton/agent-contract"><span>★ <b id="star-count">21</b> on GitHub</span></a>
-          <span><b>0</b> runtime deps</span>
-          <span><b>14+</b> stacks</span>
-        </div>
-        -->
       </div>
 
       <div class="term-shell">
         <div class="term">
           <div class="term-bar">
             <span class="tl"></span><span class="tl"></span><span class="tl"></span>
-            <span class="title">payroll-service — agent session</span>
+            <span class="title">payroll-service — governance runtime</span>
           </div>
           <div class="term-body" id="term"></div>
         </div>
@@ -786,194 +852,323 @@
     </div>
   </section>
 
-  <!-- 2. THE PROBLEM -->
+  <!-- 2. THE ENGINEERING PROBLEM -->
   <section id="problem">
     <div class="section-head reveal">
       <span class="eyebrow">the problem</span>
-      <h2>AI coding agents don't remember. Your rules shouldn't depend on them doing so.</h2>
-      <p>Today's AI coding workflows rely on conventions that agents are asked — not required — to follow. The model reads a file, interprets it as best it can, and may or may not comply. There is no mechanism that enforces anything.</p>
+      <h2>Prompts communicate intent. They do not enforce policy.</h2>
+      <p>Today's AI coding workflows rely on instructions the agent is asked — not required — to follow. The model reads a file, interprets it as best it can, and may or may not comply. No enforcement boundary exists before writes occur.</p>
     </div>
 
     <div class="problem-cols reveal">
       <div>
-        <span class="problem-panel-label">what you're using today</span>
+        <span class="problem-panel-label">current approach</span>
         <div class="tool-badges">
           <div class="tool-badge"><span class="bdot"></span>prompt engineering</div>
           <div class="tool-badge"><span class="bdot"></span>AGENTS.md</div>
           <div class="tool-badge"><span class="bdot"></span>Cursor Rules</div>
           <div class="tool-badge"><span class="bdot"></span>CLAUDE.md</div>
-          <div class="tool-badge dim"><span class="bdot"></span>people remembering</div>
+          <div class="tool-badge dim"><span class="bdot"></span>per-session instructions</div>
         </div>
       </div>
       <div class="arrow-col">→</div>
       <div>
-        <span class="problem-panel-label">what actually happens</span>
+        <span class="problem-panel-label">what this produces</span>
         <div class="fail-items">
-          <div class="fail-item"><span class="fx">✗</span>agents forget context mid-task</div>
-          <div class="fail-item"><span class="fx">✗</span>edit files they shouldn't touch</div>
-          <div class="fail-item"><span class="fx">✗</span>violate architectural boundaries</div>
-          <div class="fail-item"><span class="fx">✗</span>ignore coding conventions</div>
-          <div class="fail-item"><span class="fx">✗</span>every session starts from scratch</div>
+          <div class="fail-item"><span class="fx">✗</span>no enforcement boundary before writes occur</div>
+          <div class="fail-item"><span class="fx">✗</span>agents modify files outside declared scope</div>
+          <div class="fail-item"><span class="fx">✗</span>architectural knowledge rebuilt from scratch each session</div>
+          <div class="fail-item"><span class="fx">✗</span>governance coupled to a specific model version</div>
+          <div class="fail-item"><span class="fx">✗</span>policy lives in the conversation, not the repository</div>
         </div>
       </div>
     </div>
 
     <div class="problem-note reveal">
-      AGENTS.md and CLAUDE.md are better than nothing. But they are text files the model <strong>reads if it decides to</strong>. Nothing stops an agent from writing to a directory it was told to leave alone, refactoring a module it was told not to touch, or ignoring conventions it was instructed to follow. You find out in the diff.
+      CLAUDE.md and AGENTS.md communicate what you want. They do not prevent what you don't want. <strong>The distinction is architectural.</strong> Instructions are probabilistic inputs to a probabilistic system. Enforcement requires a deterministic boundary — one that exists independently of the model's interpretation. You find out what was ignored in the diff.
     </div>
   </section>
 
-  <!-- 3. THE SOLUTION -->
-  <section id="solution">
+  <!-- 3. WHY REPOSITORY GOVERNANCE -->
+  <section id="governance">
     <div class="section-head reveal">
-      <span class="eyebrow">the solution</span>
-      <h2>The repository is the source of truth. Not the conversation.</h2>
-      <p>Instead of asking an AI to follow rules, Agent Contract makes those rules executable. Verification is deterministic — shell scripts that exit non-zero on violations. Not suggestions. Constraints.</p>
+      <span class="eyebrow">repository governance</span>
+      <h2>Software engineering has never relied on perfect components. It has relied on deterministic systems surrounding them.</h2>
+      <p>TCP/IP does not fix packet loss. It builds retransmission protocols around it. Paxos does not fix node failures. It builds consensus around them. This principle appears consistently across distributed systems, hardware design, and network architecture: <em>build deterministic infrastructure around unreliable components, and do not assume the components will become reliable.</em></p>
+    </div>
+
+    <div class="principles reveal">
+      <div class="principle">
+        <span class="principle-num">01</span>
+        <h3>Probabilistic by nature</h3>
+        <p>Language models produce useful outputs consistently. They do not produce identical outputs deterministically. This property does not change with better prompting — it is a characteristic of the architecture.</p>
+      </div>
+      <div class="principle">
+        <span class="principle-num">02</span>
+        <h3>Deterministic by boundary</h3>
+        <p>Repositories are deterministic systems. A file is either written or it is not. A path is either in scope or it is not. The enforcement boundary belongs in the repository layer, not the model layer.</p>
+      </div>
+      <div class="principle">
+        <span class="principle-num">03</span>
+        <h3>Policy in the repository</h3>
+        <p>Policy that exists only in prompts or conversations disappears when the session ends. Policy that lives in the repository is versioned, reviewed, and present in every future execution — by any agent, any provider.</p>
+      </div>
+      <div class="principle">
+        <span class="principle-num">04</span>
+        <h3>Enforcement before writes</h3>
+        <p>The enforcement boundary belongs before writes reach the codebase. Post-hoc review is not governance. A write that lands outside scope is a governance failure regardless of whether it is caught in review.</p>
+      </div>
+    </div>
+
+    <div class="thesis-quote reveal">
+      Deterministic guardrails for non-deterministic agents.
+      <span>the central thesis of agent contract</span>
+    </div>
+  </section>
+
+  <!-- 4. ARCHITECTURE DIAGRAM -->
+  <section id="architecture">
+    <div class="section-head reveal">
+      <span class="eyebrow">architecture</span>
+      <h2>From repository policy to verified writes.</h2>
+      <p>Agent Contract is structured as a layered runtime. Each layer has a single responsibility. Policy flows from the repository through the enforcement layer before the language model's outputs reach the codebase.</p>
     </div>
 
     <div class="flow-diagram reveal">
-      <div class="flow-node">
-        <div class="flow-node-num">input</div>
-        <div class="flow-node-title">Your Prompt</div>
-        <p class="flow-node-desc">Fix the null check in payroll invoicing</p>
-      </div>
-      <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
       <div class="flow-node accent-node">
-        <div class="flow-node-num">contract</div>
+        <div class="flow-node-num">source of truth</div>
+        <div class="flow-node-title">Repository</div>
+        <p class="flow-node-desc">Policy ownership. Governance lives in the repository alongside the code it governs — versioned, reviewed, discoverable.</p>
+      </div>
+      <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
+
+      <div class="flow-node accent-node">
+        <div class="flow-node-num">policy definition</div>
         <div class="flow-node-title">Repository Contract</div>
-        <p class="flow-node-desc">Reads <code>.agent/contract.yaml</code> — roles, scopes, framework rules, conventions. Stored in the repo, versioned with your code.</p>
+        <p class="flow-node-desc">Declares roles, file scopes, framework rules, and verification commands. The source of truth for what the agent is permitted to do.</p>
       </div>
       <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
-      <div class="flow-node">
+
+      <div class="arch-split-row">
+        <div class="flow-node">
+          <div class="flow-node-num">cognitive layer</div>
+          <div class="flow-node-title">Repository Memory</div>
+          <p class="flow-node-desc">Persistent architectural knowledge. Decisions, state, and context that belong to the repository, not the session.</p>
+        </div>
+        <div class="arch-split-sep">
+          <span>+</span>
+        </div>
+        <div class="flow-node">
+          <div class="flow-node-num">least privilege</div>
+          <div class="flow-node-title">Execution Role</div>
+          <p class="flow-node-desc">Bounded authority per task. Each execution receives explicit file scope it cannot widen.</p>
+        </div>
+      </div>
+      <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
+
+      <div class="flow-node runtime-node">
         <div class="flow-node-num">enforcement</div>
-        <div class="flow-node-title">Verification</div>
-        <p class="flow-node-desc">Every file write is checked against the active role's declared scope. Out-of-scope writes exit non-zero — before they land in your codebase.</p>
+        <div class="flow-node-title">Governance Runtime</div>
+        <p class="flow-node-desc">Deterministic enforcement before writes occur. Every file write is checked against the active role's declared scope. Violations exit non-zero.</p>
       </div>
       <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
+
+      <div class="arch-provider-row">
+        <div class="flow-node provider-node">
+          <div class="flow-node-num">provider</div>
+          <div class="flow-node-title">Claude</div>
+          <p class="flow-node-desc">Operates within governance layer.</p>
+        </div>
+        <div class="flow-node provider-node">
+          <div class="flow-node-num">provider</div>
+          <div class="flow-node-title">OpenAI</div>
+          <p class="flow-node-desc">Same governance. Different model.</p>
+        </div>
+        <div class="flow-node provider-node">
+          <div class="flow-node-num">provider</div>
+          <div class="flow-node-title">Future</div>
+          <p class="flow-node-desc">Governance survives model changes.</p>
+        </div>
+      </div>
+      <div class="flow-connector"><div class="flow-line"></div><span>↓</span><div class="flow-line"></div></div>
+
       <div class="flow-node pass-node">
         <div class="flow-node-num">result</div>
-        <div class="flow-node-title">Execution</div>
-        <p class="flow-node-desc">Only changes within the declared role scope reach your codebase. Zero files touched outside scope.</p>
+        <div class="flow-node-title">Verified Repository Writes</div>
+        <p class="flow-node-desc">Only policy-compliant changes reach the codebase. Scope, conventions, and verification confirmed before completion.</p>
       </div>
     </div>
   </section>
 
-  <!-- 4. HOW IT WORKS -->
-  <section id="how">
+  <!-- 5. ARCHITECTURAL CONCEPTS -->
+  <section id="concepts">
     <div class="section-head reveal">
-      <span class="eyebrow">how it works</span>
-      <h2>From repository to governed agent in six steps.</h2>
-      <p>Setup runs once per service. Governance runs automatically on every agent session thereafter.</p>
+      <span class="eyebrow">four properties</span>
+      <h2>The architectural properties of repository governance.</h2>
+      <p>Each property addresses a specific structural gap in how AI coding agents are governed today.</p>
     </div>
     <div class="seq">
       <div class="step reveal">
         <div class="num">01</div>
         <div class="body">
-          <h3>Initialize</h3>
-          <p>Run <code>agent-contract init</code> in any repository. Creates a <code>.agent/</code> directory with the contract scaffold, hook scripts, and role definitions.</p>
-        </div>
-        <div class="tag">~2 min</div>
-      </div>
-      <div class="step reveal">
-        <div class="num">02</div>
-        <div class="body">
-          <h3>Detect framework</h3>
-          <p>The CLI reads your project structure and identifies language, framework, ORM, and test runner. Evidence-based detection across 14+ stacks — Node, PHP, Go, Python, Ruby, Elixir, and more.</p>
-        </div>
-        <div class="tag">automatic</div>
-      </div>
-      <div class="step reveal">
-        <div class="num">03</div>
-        <div class="body">
-          <h3>Generate contract</h3>
-          <p><code>.agent/contract.yaml</code> is written with scope definitions, per-stack conventions, and verification rules. Idempotent — re-run any time your stack changes.</p>
-        </div>
-        <div class="tag">deterministic</div>
-      </div>
-      <div class="step reveal">
-        <div class="num">04</div>
-        <div class="body">
-          <h3>Assign roles</h3>
-          <p>Define roles — <code>generator</code>, <code>reviewer</code>, <code>tester</code> — each with explicit file scopes. A generator scoped to <code>src/payments/**</code> cannot write to auth, billing, or infrastructure. An agent cannot widen its own scope.</p>
+          <h3>Repository-owned governance</h3>
+          <p>The repository defines policy instead of conversational instructions. Governance is declared in <code>.agent/contract.yaml</code>, versioned with the codebase, and subject to the same review process as any other configuration. Any engineer, any agent, any CI system can find it by reading the project root.</p>
         </div>
         <div class="tag">declarative</div>
       </div>
       <div class="step reveal">
-        <div class="num">05</div>
+        <div class="num">02</div>
         <div class="body">
-          <h3>Run agent</h3>
-          <p>The agent reads the contract before it reads your source. It loads the latest session handoff, the codebase map, and its role. The <code>PreToolUse</code> hook then arms enforcement for every subsequent write.</p>
-        </div>
-        <div class="tag">any agent</div>
-      </div>
-      <div class="step reveal">
-        <div class="num">06</div>
-        <div class="body">
-          <h3>Verify changes</h3>
-          <p>Every file write is checked against scope in real time. After the task completes, <code>post-generate.sh</code> runs linting, type-checking, and tests using the tools specific to your stack.</p>
+          <h3>Deterministic enforcement</h3>
+          <p>Repository writes are verified before they land. The enforcement pipeline is structured in layers: contracts define policy, roles define authority, hooks enforce it. The interface is exit codes — not model output, not log messages. Every write exits non-zero on a scope violation, before the change reaches the codebase.</p>
         </div>
         <div class="tag live">blocks violations</div>
       </div>
+      <div class="step reveal">
+        <div class="num">03</div>
+        <div class="body">
+          <h3>Persistent architectural knowledge</h3>
+          <p>Repository understanding belongs to the repository, not the session. Repository Memory stores architectural decisions, outstanding issues, and session state that persist across executions. The Codebase Map provides an indexed architectural model — modules, entry points, domain boundaries — so each execution begins from existing understanding rather than repeated discovery.</p>
+        </div>
+        <div class="tag ok">persistent</div>
+      </div>
+      <div class="step reveal">
+        <div class="num">04</div>
+        <div class="body">
+          <h3>Provider independence</h3>
+          <p>Repository governance is independent of the language model. Contracts, roles, and enforcement hooks operate identically regardless of whether the agent runs Claude, OpenAI, or a future model. Language models change. Repository governance does not migrate with them.</p>
+        </div>
+        <div class="tag">provider agnostic</div>
+      </div>
     </div>
   </section>
 
-  <!-- 5. FEATURES -->
-  <section id="features">
+  <!-- 6. BUILDING BLOCKS -->
+  <section id="blocks">
     <div class="section-head reveal">
-      <span class="eyebrow">capabilities</span>
-      <h2>What the contract encodes.</h2>
-      <p>Each capability exists to solve a specific failure mode in AI-assisted development. None of these are optional nice-to-haves — they are the reason the tool exists.</p>
+      <span class="eyebrow">implementation</span>
+      <h2>The building blocks of repository governance.</h2>
+      <p>Each component satisfies a specific architectural requirement. Together they form the governance layer between repository policy and agent execution.</p>
     </div>
     <div class="features-grid">
       <div class="feat reveal">
-        <span class="feat-tag">roles</span>
-        <h3>Role-based permissions</h3>
-        <p>Different tasks get different access. A <code>generator</code> writes source; a <code>reviewer</code> reads everything and writes nothing. Roles are declared in the contract, not in a prompt that disappears.</p>
+        <span class="feat-tag">contracts</span>
+        <h3>Repository Contracts</h3>
+        <p><code>.agent/contract.yaml</code> is the policy definition. It declares scope, roles, framework rules, and verification commands. Stored in the repository. Idempotent — regenerate any time the stack changes.</p>
       </div>
       <div class="feat reveal">
-        <span class="feat-tag">scopes</span>
-        <h3>File scopes</h3>
-        <p>Each role declares the exact paths it can write to, using glob patterns. An agent assigned to payments cannot edit auth, billing, or infrastructure — regardless of what it is instructed to do mid-session.</p>
+        <span class="feat-tag">roles</span>
+        <h3>Execution Roles</h3>
+        <p>Roles implement the principle of least privilege. Each task receives a role with explicit file scope it cannot widen. A role scoped to <code>src/payments/**</code> cannot write to auth, billing, or infrastructure — regardless of instruction.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="feat-tag">enforcement</span>
+        <h3>Enforcement Pipeline</h3>
+        <p><code>pre-generate.sh</code> validates the task and arms the active role. The <code>PreToolUse</code> hook checks scope on every write in real time. <code>post-generate.sh</code> runs verification. Three deterministic checkpoints, each with a binary outcome.</p>
+      </div>
+
+      <div class="feat wide reveal">
+        <span class="feat-tag">memory</span>
+        <h3>Repository Memory</h3>
+        <p>Memory is not conversation history. It is persistent repository knowledge — the cognitive layer of the governance runtime. A <code>Stop</code> hook writes architectural decisions, outstanding issues, and session state after every execution that produces changes. The next execution begins from the last known repository state rather than from discovery. Architectural knowledge accumulates in the repository where it belongs, not in a context window that closes.</p>
+      </div>
+      <div class="feat wide reveal">
+        <span class="feat-tag">map</span>
+        <h3>Codebase Map</h3>
+        <p>Relational databases rarely perform sequential scans when indexes exist. A query planner traverses an index to locate records without scanning the full table. AI coding agents face an analogous problem: without a structural model, each execution traverses the repository to reconstruct architectural understanding — discovering module boundaries, entry points, and domain structure from scratch. The Codebase Map is an architectural index. It stores a structural model of the repository that the governance runtime reads before the agent reads source files. The primary benefit is eliminating repeated architectural discovery. Each execution begins from an existing model. Token savings are a consequence of that, not the objective.</p>
+      </div>
+
+      <div class="feat reveal">
+        <span class="feat-tag">provider abstraction</span>
+        <h3>Provider Independence</h3>
+        <p>Governance contracts are independent of the language model. Claude, OpenAI, and future models operate through the same execution interface. Changing providers does not require rebuilding governance policy.</p>
       </div>
       <div class="feat reveal">
         <span class="feat-tag">detection</span>
-        <h3>Framework detection</h3>
-        <p>The CLI reads your project structure and identifies your stack automatically. It then configures the correct linter, type-checker, and test runner for post-task verification — no manual setup.</p>
-      </div>
-      <div class="feat reveal">
-        <span class="feat-tag">conventions</span>
-        <h3>Convention learning</h3>
-        <p>The contract captures your project's naming patterns, module boundaries, and coding standards. These become checks that run after every task — not suggestions the model may or may not follow.</p>
-      </div>
-      <div class="feat reveal">
-        <span class="feat-tag">memory</span>
-        <h3>Repository memory</h3>
-        <p>A <code>Stop</code> hook writes a handoff note after every session that produces changes. The next agent boots with the decisions, context, and outstanding issues from the previous session — not a blank slate.</p>
-      </div>
-      <div class="feat reveal">
-        <span class="feat-tag">hooks</span>
-        <h3>Lifecycle hooks</h3>
-        <p><code>pre-generate.sh</code> validates the task spec and arms the active role. <code>post-generate.sh</code> runs verification. Each is a plain shell script that exits non-zero on failure — the universal interface for orchestrators.</p>
+        <h3>Framework Detection</h3>
+        <p>The CLI reads project structure and identifies stack, framework, ORM, and test runner automatically. It then configures the correct linter, type-checker, and test runner for post-task verification — across 14+ stacks.</p>
       </div>
       <div class="feat reveal">
         <span class="feat-tag">verification</span>
-        <h3>Stack-aware verification</h3>
-        <p>After a task completes, the contract runs the right tools for your stack: <code>eslint + tsc + jest</code> for TypeScript, <code>phpstan + pint + phpunit</code> for Laravel. Verification is not generic — it is specific to what you're building.</p>
-      </div>
-      <div class="feat reveal">
-        <span class="feat-tag">map</span>
-        <h3>Codebase map</h3>
-        <p>The contract generates a structural map of your repository — modules, entry points, domain boundaries. The agent reads this before it reads a single source file, so it understands the architecture first.</p>
+        <h3>Stack-aware Verification</h3>
+        <p>After a task completes, the contract runs the right tools: <code>eslint + tsc + jest</code> for TypeScript, <code>phpstan + pint + phpunit</code> for Laravel. Verification is specific to the stack, not generic.</p>
       </div>
     </div>
   </section>
 
-  <!-- 6. COMPARISON TABLE -->
+  <!-- 7. EXAMPLE -->
+  <section id="example">
+    <div class="section-head reveal">
+      <span class="eyebrow">example</span>
+      <h2>A governed execution.</h2>
+      <p>The contract defines policy. The role defines authority. The runtime enforces both — before writes reach the codebase.</p>
+    </div>
+    <div class="example-split reveal">
+      <div>
+        <div class="codeblk">
+          <span class="codeblk-label">.agent/contract.yaml</span><span class="cm"># generated by agent-contract init</span>
+<span class="key">project</span>:   <span class="val">payroll-service</span>
+<span class="key">framework</span>: <span class="val">express</span>
+<span class="key">language</span>:  <span class="val">typescript</span>
+
+<span class="key">roles</span>:
+  <span class="key">generator</span>:
+    <span class="key">scope</span>:
+      - <span class="val">src/payroll/**</span>
+    <span class="key">forbid</span>:
+      - <span class="val">src/auth/**</span>
+      - <span class="val">src/billing/**</span>
+      - <span class="val">.agent/**</span>
+
+  <span class="key">reviewer</span>:
+    <span class="key">scope</span>:
+      - <span class="val">"**"</span>
+    <span class="key">write</span>: <span class="val">false</span>
+
+<span class="key">verify</span>:
+  <span class="key">lint</span>:      <span class="val">eslint src --max-warnings 0</span>
+  <span class="key">typecheck</span>: <span class="val">tsc --noEmit</span>
+  <span class="key">test</span>:      <span class="val">jest --passWithNoTests</span>
+        </div>
+      </div>
+      <div>
+        <div class="term-static">
+          <div class="sbar">
+            <span class="stl"></span><span class="stl"></span><span class="stl"></span>
+            <span class="stitle">payroll-service — governance runtime</span>
+          </div>
+          <div class="sbody">
+<span class="sm"># contract loaded · role: generator · enforcement armed</span>
+<span class="sp">runtime ▸ role: generator · scope: src/payroll/**</span>
+
+<span class="sm"># task begins</span>
+<span class="sl">agent ▸ Edit  src/payroll/invoice.ts       <span class="sp">✓ in scope</span></span>
+<span class="sl">agent ▸ Edit  src/payroll/invoice.test.ts  <span class="sp">✓ in scope</span></span>
+
+<span class="sm"># agent attempts write outside declared scope</span>
+<span class="sb">agent ▸ Edit  src/auth/session.ts          ✗ BLOCKED</span>
+<span class="sbb">scope-check: src/auth/session.ts is outside
+role 'generator' scope (src/payroll/**).
+exit 2</span>
+
+<span class="sm"># post-generate verification</span>
+<span class="sl">eslint        <span class="sp">✓ 0 warnings</span></span>
+<span class="sl">tsc --noEmit  <span class="sp">✓ no errors</span></span>
+<span class="sl">jest          <span class="sp">✓ 3 passed</span></span>
+
+<span class="sw">✓ 1 fix shipped. 0 files touched outside scope.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. COMPARISON TABLE -->
   <section id="compare">
     <div class="section-head reveal">
       <span class="eyebrow">comparison</span>
-      <h2>How Agent Contract differs from existing approaches.</h2>
-      <p>AGENTS.md and Cursor Rules are persistent and repository-native. The gap is enforceability — they rely on the model choosing to cooperate.</p>
+      <h2>Where existing approaches end and enforcement begins.</h2>
+      <p>AGENTS.md and Cursor Rules are persistent and repository-native. The structural gap is enforceability — they rely on the model choosing to cooperate with policy it has read.</p>
     </div>
     <div class="compare-wrap reveal">
       <table class="compare-table">
@@ -1023,7 +1218,14 @@
             <td class="yes">✓</td>
           </tr>
           <tr>
-            <td>Framework Aware</td>
+            <td>Persistent Architecture Memory</td>
+            <td class="no">✕</td>
+            <td class="no">✕</td>
+            <td class="no">✕</td>
+            <td class="yes">✓</td>
+          </tr>
+          <tr>
+            <td>Provider Independent</td>
             <td class="no">✕</td>
             <td class="no">✕</td>
             <td class="no">✕</td>
@@ -1034,109 +1236,42 @@
     </div>
   </section>
 
-  <!-- 7. REAL EXAMPLE -->
-  <section id="example">
-    <div class="section-head reveal">
-      <span class="eyebrow">example</span>
-      <h2>What a governed session looks like.</h2>
-      <p>A contract file in the repository, an agent running a task, and a write attempt to a directory outside the declared scope.</p>
-    </div>
-    <div class="example-split reveal">
-      <div>
-        <div class="codeblk">
-          <span class="codeblk-label">.agent/contract.yaml</span><span class="cm"># generated by agent-contract init</span>
-<span class="key">project</span>:   <span class="val">payroll-service</span>
-<span class="key">framework</span>: <span class="val">express</span>
-<span class="key">language</span>:  <span class="val">typescript</span>
-
-<span class="key">roles</span>:
-  <span class="key">generator</span>:
-    <span class="key">scope</span>:
-      - <span class="val">src/payroll/**</span>
-    <span class="key">forbid</span>:
-      - <span class="val">src/auth/**</span>
-      - <span class="val">src/billing/**</span>
-      - <span class="val">.agent/**</span>
-
-  <span class="key">reviewer</span>:
-    <span class="key">scope</span>:
-      - <span class="val">"**"</span>
-    <span class="key">write</span>: <span class="val">false</span>
-
-<span class="key">verify</span>:
-  <span class="key">lint</span>:      <span class="val">eslint src --max-warnings 0</span>
-  <span class="key">typecheck</span>: <span class="val">tsc --noEmit</span>
-  <span class="key">test</span>:      <span class="val">jest --passWithNoTests</span>
-        </div>
-      </div>
-      <div>
-        <div class="term-static">
-          <div class="sbar">
-            <span class="stl"></span><span class="stl"></span><span class="stl"></span>
-            <span class="stitle">payroll-service — agent session</span>
-          </div>
-          <div class="sbody">
-<span class="sm"># agent boots by reading the contract</span>
-<span class="sp">contract ▸ role: generator · scope: src/payroll/**</span>
-
-<span class="sm"># task begins</span>
-<span class="sl">agent ▸ Edit  src/payroll/invoice.ts       <span class="sp">✓ in scope</span></span>
-<span class="sl">agent ▸ Edit  src/payroll/invoice.test.ts  <span class="sp">✓ in scope</span></span>
-
-<span class="sm"># agent attempts to "clean up" an unrelated file</span>
-<span class="sb">agent ▸ Edit  src/auth/session.ts          ✗ BLOCKED</span>
-<span class="sbb">scope-check: src/auth/session.ts is outside
-role 'generator' scope (src/payroll/**).
-exit 2</span>
-
-<span class="sm"># post-generate verification</span>
-<span class="sl">eslint        <span class="sp">✓ 0 warnings</span></span>
-<span class="sl">tsc --noEmit  <span class="sp">✓ no errors</span></span>
-<span class="sl">jest          <span class="sp">✓ 3 passed</span></span>
-
-<span class="sw">✓ 1 fix shipped. 0 files touched outside scope.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. PHILOSOPHY -->
+  <!-- 9. PHILOSOPHY -->
   <section id="philosophy">
     <div class="section-head reveal">
       <span class="eyebrow">principles</span>
-      <h2>The engineering values behind the design.</h2>
-      <p>Software engineering has always required governance — for humans, for systems, and for the processes that connect them. AI coding agents are systems. They should be governed like systems.</p>
+      <h2>The engineering properties behind the design.</h2>
+      <p>Each principle reflects a specific decision about where trust is placed and where enforcement is applied.</p>
     </div>
     <div class="principles reveal">
       <div class="principle">
         <span class="principle-num">01</span>
-        <h3>Discoverable</h3>
-        <p>The contract lives in the repository alongside the code it governs. Any engineer, any agent, any CI system can find it by looking at the project root. No external configuration required.</p>
+        <h3>Deterministic</h3>
+        <p>Governance produces binary outcomes. A write is either within scope or it is not. The enforcement interface is exit codes, not model output. Compliance is not self-reported.</p>
       </div>
       <div class="principle">
         <span class="principle-num">02</span>
-        <h3>Declarative</h3>
-        <p>Rules are written once in a versioned file — not repeated in every prompt. The contract is the specification. The agent reads it; it does not negotiate it or interpret it differently each session.</p>
+        <h3>Repository-first</h3>
+        <p>The repository is the unit of trust, not the conversation. Policy that lives in the repository is versioned, reviewed, and present in every future execution. Policy that lives in a conversation is not.</p>
       </div>
       <div class="principle">
         <span class="principle-num">03</span>
-        <h3>Verifiable</h3>
-        <p>Compliance is not self-reported. Every task ends with deterministic checks: scope verification, linting, type-checking, tests. Exit codes are the interface — not log messages, not model output.</p>
+        <h3>Persistent</h3>
+        <p>Architectural knowledge survives session boundaries. Repository memory and the codebase map ensure each execution begins from existing repository understanding rather than from repeated discovery.</p>
       </div>
       <div class="principle">
         <span class="principle-num">04</span>
-        <h3>Repository-first</h3>
-        <p>The repository is the unit of trust, not the conversation. Rules that live only in prompts disappear when the session ends. Rules that live in the repository persist with the code — and are subject to the same review process.</p>
+        <h3>Independent</h3>
+        <p>Governance does not depend on any specific language model. The contract is the constant. The model provider is interchangeable. Switch providers without rebuilding governance policy.</p>
       </div>
     </div>
   </section>
 
-  <!-- 9. CALL TO ACTION -->
+  <!-- 10. CALL TO ACTION -->
   <section class="final-cta">
     <div class="reveal">
-      <h2>Stop repeating instructions.<br>Put them where they belong.</h2>
-      <p>The repository is already the source of truth for your code, your tests, and your CI configuration. Your AI coding rules should live there too — inside your repository, versioned, verifiable, and enforceable.</p>
+      <h2>Repository governance<br>belongs in the repository.</h2>
+      <p>The codebase is already the source of truth for code, tests, and CI configuration. Governance for AI coding agents belongs there too — versioned, verifiable, and independent of any conversation or model provider.</p>
       <div class="cta-row">
         <button class="cmd-copy" data-copy="npm i -g @semeton/agent-contract" aria-label="Copy install command">
           <span><span class="prompt">$</span> npm i -g @semeton/agent-contract</span>
@@ -1206,9 +1341,9 @@ exit 2</span>
   var replay = document.getElementById("replay");
 
   var script = [
-    { t: "# rules live in the repo — the contract does the rest", c: "muted", pause: 450 },
+    { t: "# contract loaded · enforcement armed", c: "muted", pause: 450 },
     { t: "fix the null check in payroll invoicing", c: "cmd", type: true, pause: 560 },
-    { t: "contract ▸ booted · role: generator · scope: src/payroll/**", c: "pass", pause: 540 },
+    { t: "runtime ▸ role: generator · scope: src/payroll/**", c: "pass", pause: 540 },
     { t: "", c: "muted", pause: 120 },
     { t: "agent ▸ Edit  src/payroll/invoice.ts          ✓ in scope", c: "label", pass: true, pause: 360 },
     { t: "agent ▸ Edit  src/payroll/invoice.test.ts     ✓ in scope", c: "label", pass: true, pause: 420 },
@@ -1289,52 +1424,6 @@ exit 2</span>
       kick();
     }
   }
-
-  /* ---------- npm downloads ---------- */
-  /*
-  (function () {
-    var el = document.getElementById("dl-count");
-    if (!el || typeof fetch !== "function") return;
-    var LAUNCH = "2026-05-15";
-    var d = new Date();
-    var today = d.getFullYear() + "-" +
-      String(d.getMonth() + 1).padStart(2, "0") + "-" +
-      String(d.getDate()).padStart(2, "0");
-    fetch("https://api.npmjs.org/downloads/range/" + LAUNCH + ":" + today + "/@semeton/agent-contract")
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (!data || !data.downloads) return;
-        var total = data.downloads.reduce(function (s, x) { return s + (x.downloads || 0); }, 0);
-        if (total <= 0) return;
-        var fmt = function (n) { return n.toLocaleString("en-US"); };
-        if (reduced) { el.textContent = fmt(total); return; }
-        var dur = 1100, start = null;
-        function frame(ts) {
-          if (start === null) start = ts;
-          var p = Math.min((ts - start) / dur, 1);
-          var eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = fmt(Math.round(total * eased));
-          if (p < 1) requestAnimationFrame(frame);
-        }
-        requestAnimationFrame(frame);
-      })
-      .catch(function () {});
-  })();
-
-  // GitHub stars
-  (function () {
-    var el = document.getElementById("star-count");
-    if (!el || typeof fetch !== "function") return;
-    fetch("https://api.github.com/repos/Semeton/agent-contract")
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (data && typeof data.stargazers_count === "number") {
-          el.textContent = data.stargazers_count.toLocaleString("en-US");
-        }
-      })
-      .catch(function () {});
-  })();
-  */
 })();
 </script>
 </body>
